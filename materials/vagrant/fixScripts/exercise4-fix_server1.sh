@@ -4,4 +4,4 @@
 echo 'Host server2
 	HostName 192.168.60.11'>> /home/vagrant/.ssh/config
 
-echo 'server2 192.168.60.11'>>/etc/hosts
+echo '192.168.60.11	server2'>>/etc/hosts
