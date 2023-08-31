@@ -36,4 +36,6 @@ sshpass -p 'vagrant' ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/
 
 # disable password authentication
 sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/ssh_config
+
+# restart sshd service
 sudo service sshd restart
