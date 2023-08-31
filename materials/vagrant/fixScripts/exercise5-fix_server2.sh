@@ -32,7 +32,8 @@ chmod 600 /home/vagrant/.ssh/authorized_keys
 sshpass -p 'vagrant' ssh-copy-id -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.60.10 
 
 # copy .pub key from server1 to local home directory
-sshpass -p 'vagrant' ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vagrant@192.168.60.10 'sh -c "sshpass -p vagrant ssh-copy-id -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.60.11" && "sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config" && service sshd restart'
+sshpass -p 'vagrant' ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null vagrant@192.168.60.10 'sh -c "sshpass -p vagrant ssh-copy-id -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.60.11&&sudo sed -i '\''s/PasswordAuthentication yes/PasswordAuthentication no/g'\'' /etc/ssh/sshd_config"'
 
+# disable password authentication
 sudo sed -i 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/ssh_config
 sudo service sshd restart
