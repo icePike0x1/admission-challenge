@@ -3,7 +3,7 @@
 # Check if at least 2 arguments are passed, SOURCE and DEST
 if [ "$#" -lt 2 ]; then
   echo "Usage: $0 [source]...[destination]. input at least 2 arguments"
-  return 1
+  exit 1
 fi
 
 dest="${@: -1}"
