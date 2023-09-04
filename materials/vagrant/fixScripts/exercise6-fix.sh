@@ -8,10 +8,12 @@ fi
 
 dest="${@: -1}"
 
-if [ "$(hostname)" == 'server1' ]; then
-  dest_host='server2'
-else
-  dest_host='server1'
+HOSTNAME="$(hostname)"
+
+if [ "${HOSTNAME}" == 'server1' ]; then
+  dest_host='192.168.60.11'
+elif [ "${HOSTNAME}" == 'server2' ]; then 
+  dest_host='192.168.60.10'
 fi
 
 txt=0
@@ -27,11 +29,11 @@ for ((i=1; i<$#; i++)); do
   fi
 
   # Copy the file to the destination
-  temp=$(rsync -avr --stats $file $dest_host:$dest | grep 'Total transferred file size:' | cut -d" " -f 5)
-  #echo $temp
+  temp=$(su vagrant -c "rsync -avr --stats -e 'ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o LogLevel=ERROR' $file vagrant@$dest_host:$dest" 2>/dev/null <<< 'vagrant' | grep 'Total transferred file size')
+  #temp=$(grep 'Total transferred file size:' $temp)
+  temp=$(cut -d' ' -f 5 -<<<$temp)
   temp="${temp//,/}"
   ((txt+=temp))
-  #echo "Copied '$file' to '$dest_host:$dest'"
 done
 
-echo "$txt"
+echo $txt
